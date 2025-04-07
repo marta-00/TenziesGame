@@ -1,0 +1,27 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  
+}
+div#root{
+  height: 100%;
+  width: 100%;
+  max-width: 400px;
+  max-height: 400px;
+}
+
+body {
+  background-color: #0b2434;
+  height: 100dvh;
+  display: flex;
+  padding: 20px;
+}
+
+main {
+  height: 100%;
+  border-radius: 10px;
+  background-color: #F5F5F5;
+}
+
