@@ -1,36 +1,44 @@
 #root {
-  max-width: 1280px;
+  width: 100%;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
-  
-}
-div#root{
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 100%;
-  width: 100%;
-  max-width: 400px;
-  max-height: 400px;
 }
 
 body {
   background-color: #0b2434;
-  height: 100dvh;
-  display: flex;
-  padding: 20px;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
 }
-
-main {
-  height: 100%;
-  border-radius: 10px;
-  background-color: #F5F5F5;
+.scoreboard {
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  padding: 10px;
+  gap: 20px;
+  padding: 0 20px;
 }
 
 .active{
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.scoreboard, .active{
+  background-color: #F5F5F5;
+  border-radius: 10px;
   margin: 20px;
+  width: 450px;
 }
 
 .container {

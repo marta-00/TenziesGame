@@ -11,6 +11,22 @@ function App() {
 
   const gameWon = dice.every(die => die.isHeld) && dice.every(die => die.value === dice[0].value)
 
+  const [time, setTime] = React.useState(0); 
+  const [rolls, setRolls] = React.useState(0); 
+  const [isRunning, setIsRunning] = React.useState(false); 
+
+  React.useEffect(() => {
+    let timer;
+    if (!gameWon && isRunning) {
+      timer = setInterval(() => {
+        setTime(prevTime => prevTime + 1);
+      }, 1000);
+    } else if (gameWon) {
+      clearInterval(timer);
+    }
+    return () => clearInterval(timer);
+  }, [gameWon, isRunning]);
+
   React.useEffect(() => {
     if (gameWon) {
       buttonRef.current.focus()
@@ -27,18 +43,25 @@ function App() {
   }
 
   function rollDice() {
+    if (!isRunning) setIsRunning(true); // Inicia el temporizador al primer lanzamiento
     if (gameWon) {
-      setDice(generateAllNewDice())
+      setDice(generateAllNewDice());
+      setTime(0); // Reinicia el tiempo
+      setRolls(0); // Reinicia los lanzamientos
+      setIsRunning(false); // Detiene el temporizador
     } else {
-    setDice(prevDice => prevDice.map(die => {
-      return die.isHeld ? die : {...die, value: Math.ceil(Math.random() * 6)}
-    }))}
+      setDice(prevDice => prevDice.map(die => {
+        return die.isHeld ? die : { ...die, value: Math.ceil(Math.random() * 6) };
+      }));
+      setRolls(prevRolls => prevRolls + 1); // Incrementa los lanzamientos
+    }
   }
 
   function holdDice(id) {
+    if (!isRunning) setIsRunning(true); // Inicia el temporizador si no está corriendo
     setDice(prevDice => prevDice.map(die => {
-      return die.id === id ? {...die, isHeld: !die.isHeld} : die
-    }))
+      return die.id === id ? { ...die, isHeld: !die.isHeld } : die;
+    }));
   }
   
   const diceElements = dice.map((die) => (
@@ -57,6 +80,10 @@ function App() {
       {gameWon && <Confetti />}
       <div aria-live='polite' className='sr-only'>
         {gameWon && <p> Congratulations! You Won! Press "New Game" to start again.</p>}
+      </div>
+      <div className="scoreboard">
+        <p className='time'>Time: {Math.floor(time / 60)}:{String(time % 60).padStart(2, '0')}</p>
+        <p className='rolls'>Rolls: {rolls}</p>
       </div>
       <div className="active">
         <h1 className='title'>Tenzies</h1>
